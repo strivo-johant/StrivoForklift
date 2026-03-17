@@ -9,15 +9,11 @@ var host = new HostBuilder()
     .ConfigureServices((context, services) =>
     {
         var connectionString = context.Configuration.GetConnectionString("SqlConnection")
-            ?? "Data Source=forklift.db";
+            ?? throw new InvalidOperationException(
+                "A 'SqlConnection' connection string must be provided in configuration.");
 
         services.AddDbContext<ForkliftDbContext>(options =>
-        {
-            if (connectionString.TrimStart().StartsWith("Data Source=", StringComparison.OrdinalIgnoreCase))
-                options.UseSqlite(connectionString);
-            else
-                options.UseSqlServer(connectionString);
-        });
+            options.UseSqlServer(connectionString));
     })
     .Build();
 

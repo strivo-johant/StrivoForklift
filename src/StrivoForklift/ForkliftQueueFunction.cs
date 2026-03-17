@@ -28,7 +28,7 @@ public class ForkliftQueueFunction
 
     [Function(nameof(ForkliftQueueFunction))]
     public async Task Run(
-        [QueueTrigger("consumethis", Connection = "StorageConnectionString")] string rawMessage)
+        [QueueTrigger("consumethis", Connection = "StorageQueue")] QueueMessage message)
     {
         var lines = rawMessage.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         if (lines.Length < 3)
